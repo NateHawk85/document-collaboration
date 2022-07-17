@@ -64,6 +64,7 @@ $(() => {
 		disconnect();
 	});
 	const $inputLocations = $(".input-location");
+	$inputLocations.keyup((event) => updateModifierKeys(event));
 	$inputLocations.keydown((event) => {
 		// TODO - don't send on paste, you'll have to handle that separately
 		updateModifierKeys(event);
@@ -93,7 +94,6 @@ $(() => {
 			isRecordingInput = false;
 		}, 100);
 	});
-	$inputLocations.keyup((event) => updateModifierKeys(event));
 });
 
 function updateModifierKeys(event) {

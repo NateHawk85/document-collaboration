@@ -40,10 +40,7 @@ public class DocumentModificationService
 	{
 		DocumentContext documentContext = documentRepository.findDocument();
 		
-		// apply changes to document context
 		List<DocumentChange> changes = documentContext.applyChanges();
-		
-		// save
 		documentRepository.saveDocument(documentContext);
 		
 		return changes;

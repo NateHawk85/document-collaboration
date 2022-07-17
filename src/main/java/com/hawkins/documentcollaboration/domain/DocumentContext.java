@@ -20,7 +20,7 @@ public class DocumentContext
 		Set<String> changedIds = new HashSet<>();
 		temporaryChanges.forEach((elementId, changes) ->
 								 {
-									 // current location does not exist, initialize it
+									 // current location does not already exist, initialize it
 									 document.getElementIdValueMap().putIfAbsent(elementId, "");
 			
 									 for (int i = 0; i < changes.size(); i++)
@@ -38,22 +38,16 @@ public class DocumentContext
 		return documentChanges;
 	}
 	
-	// TODO - highlighted delete/replace
-	// TODO
+	// TODO - can get quite buggy with collaboration. Look into it
 	private void processChange(List<Change> changes, int index)
 	{
 		Change change = changes.get(index);
 		
 		String currentValueAtElement = document.getElementIdValueMap().get(change.getElementId());
 		
-		// TODO - special characters
 		if (change.getKey().length() == 1)
 		{
-			if (index != changes.size() - 1)
-			{
-			
-			}
-			
+			// TODO - lots of incorrect substrings when collaboratively editing. May have to save state per client, but that could get messy
 			String updatedValue =
 					currentValueAtElement.substring(0, change.getSelectionStartIndex()) +
 					change.getKey() +
@@ -66,7 +60,7 @@ public class DocumentContext
 					currentValueAtElement.substring(0, change.getSelectionStartIndex()) +
 					currentValueAtElement.substring(change.getSelectionEndIndex());
 			document.getElementIdValueMap().put(change.getElementId(), updatedValue);
-		} else
+		} else // TODO - special characters? Should be ignored by frontend, but still. Gotta validate
 		{
 			System.out.println("DOING NOTHING - ");
 			System.out.println("Element id: " + change.getElementId());

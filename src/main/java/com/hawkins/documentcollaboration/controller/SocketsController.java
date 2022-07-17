@@ -37,13 +37,14 @@ public class SocketsController
 		}
 		
 		isAlreadyRecording = true;
+		// TODO - better error handling
 		new Thread(() ->
 				   {
 					   try
 					   {
 						   Thread.sleep(UPDATE_DELAY_IN_MILLISECONDS);
 						   reportToWebSockets();
-					   } catch (InterruptedException ie)
+					   } catch (InterruptedException ignored)
 					   {
 					   } finally
 					   {
@@ -52,7 +53,7 @@ public class SocketsController
 				   }).start();
 	}
 	
-	public void reportToWebSockets()
+	private void reportToWebSockets()
 	{
 		template.convertAndSend("/topic/someDifferentThing", documentModificationService.applyDocumentChanges());
 	}
